@@ -35,23 +35,7 @@ export default function BookingSchedule() {
     events,
     plugins: [eventsService, calendarControls, eventModal, resizePlugin],
     callbacks: {
-      onEventCreate: (event: any) => {
-        setEvents(prev => [...prev, { ...event, doctorId }])
-      },
-      onEventUpdate: (updatedEvent: any) => {
-        setEvents(prev => prev.map(e => e.id === updatedEvent.id ? { ...updatedEvent, doctorId: e.doctorId ?? doctorId } : e))
-      },
-      onClickDateTime: (dateTime: string) => {
-        // Open the event modal for a new event with selected doctor and slot time
-        if (eventModal && typeof eventModal.openForNewEvent === 'function') {
-          eventModal.openForNewEvent({
-            start: dateTime,
-            end: dateTime,
-            doctorId,
-            title: `Appointment with ${DOCTORS.find(d => d.id === doctorId)?.name}`
-          })
-        }
-      }
+
     }
   })
 
@@ -128,7 +112,9 @@ export default function BookingSchedule() {
       <main style={{ flex: 1, width: '100vw', display: 'flex', flexDirection: 'column', justifyContent: 'stretch', alignItems: 'stretch', minHeight: 0, minWidth: 0, padding: 0 }}>
         <div style={{ flex: 1, width: '100%', height: '100%', minHeight: 0, minWidth: 0, padding: 0, background: '#f6f8fa', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch' }}>
           <div style={{ flex: 1, minHeight: 0, minWidth: 0, padding: 0, margin: 0 }}>
-            <ScheduleXCalendar calendarApp={calendar} style={{ width: '100%', height: '100%' }} />
+            <div className="schedule-x-calendar" style={{ width: '100%', height: '100%' }}>
+              <ScheduleXCalendar calendarApp={calendar} />
+            </div>
           </div>
         </div>
       </main>
